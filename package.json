@@ -1,0 +1,30 @@
+{
+  "name": "trippy-api",
+  "version": "1.0.0",
+  "description": "API for the Trippy App",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "env-cmd -f ./prod.env node src/index.js",
+    "dev": "env-cmd -f ./dev.env nodemon src/index.js",
+    "test": "env-cmd -f ./test.env jest --watch"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "express-validation": "^1.0.2",
+    "http-status": "^1.3.2",
+    "joi": "^14.3.1",
+    "jwt-simple": "^0.5.6",
+    "moment-timezone": "^0.5.26",
+    "mongoose": "^5.6.7",
+    "morgan": "^1.9.1",
+    "uuid": "^3.3.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^9.0.3"
+  }
+}
