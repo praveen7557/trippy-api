@@ -62,9 +62,8 @@ userSchema.method({
     const playload = {
       exp: moment().add(jwtExpirationInterval, 'minutes').unix(),
       iat: moment().unix(),
-      sub: this._id,
+      id: this._id
     };
-    console.log(jwtSecret)
     return jwt.encode(playload, jwtSecret);
   },
 });
