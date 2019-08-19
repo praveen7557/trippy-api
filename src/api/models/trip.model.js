@@ -40,6 +40,12 @@ const tripSchema = new mongoose.Schema({
   user: {
     type: ObjectId,
     ref: "User"
+  },
+  lat: {
+    type: Number
+  },
+  lng: {
+    type: Number
   }
 }, {
     timestamps: true,
@@ -82,6 +88,7 @@ tripSchema.statics = {
   async update(id, body) {
     let item = await this.findById(id);
     let added;
+    console.log(body);
     if (body.new == "check") {
       let existing = item.check_list;
       let checkItem = new Checklist({

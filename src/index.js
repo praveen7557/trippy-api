@@ -9,6 +9,8 @@ mongoose.connect();
 // listen to requests
 app.listen(port, () => logger.info(`server started on port ${port} (${env})`));
 
+require('./jobs');
+
 /**
 * Exports express
 * @public

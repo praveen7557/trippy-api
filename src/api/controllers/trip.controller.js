@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const Trip = require('../models/trip.model');
 const Checklist = require('../models/check.model');
 const Note = require('../models/note.model');
+const agenda = require('../../jobs/index');
 
 exports.home = async (req, res, next) => {
   try {
@@ -52,7 +53,7 @@ exports.get = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   try {
-    const { name, location, place_id, start_date, end_date, check_list, notes } = req.body;
+    const { name, location, place_id, start_date, end_date, check_list, notes, lat, lng } = req.body;
     const user = req.user;
     let checklist = await Checklist.insertMany(check_list);
     checklist = checklist.map(e => e.id);
@@ -62,8 +63,22 @@ exports.create = async (req, res, next) => {
       notesList = notesList.map(e => e.id);
     }
     let trip = await Trip.create({
-      name, location, place_id, start_date, end_date, check_list: checklist, notes: notesList, user
+      name, location, place_id, start_date, end_date, check_list: checklist, notes: notesList, user, lat, lng
     });
+
+    agenda.schedule("2019-08-19T10:55:59.999Z", 'send notification', {
+      id: trip.id,
+      days: 1
+    });
+    agenda.schedule("2019-08-19T10:56:59.999Z", 'send notification', {
+      id: trip.id,
+      days: 2
+    });
+    agenda.schedule("2019-08-19T10:57:59.999Z", 'send notification', {
+      id: trip.id,
+      days: 3
+    });
+
     res.status(httpStatus.OK).send({ trip });
   } catch (error) {
     return next(error);

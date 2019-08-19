@@ -6,5 +6,6 @@ module.exports = {
   port: process.env.PORT,
   logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
   jwtSecret: process.env.JWT_SECRET,
-  jwtExpirationInterval: process.env.JWT_EXPIRATION_MINUTES
+  jwtExpirationInterval: process.env.JWT_EXPIRATION_MINUTES,
+  jobTypes: process.env.JOB_TYPES
 }
