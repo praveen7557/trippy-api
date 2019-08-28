@@ -42,6 +42,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  tokens: {
+    type: [String]
+  }
 }, {
     timestamps: true,
   });
@@ -49,7 +52,7 @@ const userSchema = new mongoose.Schema({
 userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt'];
+    const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt', 'tokens'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -88,6 +91,29 @@ userSchema.statics = {
     } catch (error) {
       throw error;
     }
+  },
+
+  async update(id, body) {
+    let item = await this.findById(id);
+    if (body.token) {
+      item.tokens.addToSet(body.token)
+    }
+    if (body.logout) {
+      item.tokens.splice(item.tokens.indexOf(body.token), 1);
+    }
+    if (item) {
+      for (let b in body) {
+        item[b] = body[b];
+      }
+      let updated = await item.save();
+      if (updated) {
+        return updated.transform()
+      }
+    }
+    throw new APIError({
+      message: 'User with the provided id does not exits',
+      status: httpStatus.NOT_FOUND,
+    });
   },
 
   async findAndGenerateToken(options) {

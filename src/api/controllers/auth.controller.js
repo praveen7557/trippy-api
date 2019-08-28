@@ -16,6 +16,8 @@ function generateTokenResponse(user, accessToken) {
 exports.oAuth = async (req, res, next) => {
   try {
     const { user } = req;
+    user.tokens.addToSet(req.body.token);
+    user.save();
     const accessToken = user.token();
     const token = generateTokenResponse(user, accessToken);
     const userTransformed = user.transform();
@@ -35,6 +37,27 @@ exports.refresh = async (req, res, next) => {
     const { user, accessToken } = await User.findAndGenerateToken({ email, refreshObject });
     const response = generateTokenResponse(user, accessToken);
     return res.json(response);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+exports.update = async function (req, res, next) {
+  try {
+    let updated = await User.update(req.params.id, req.body);
+    res.send({ user: updated }, httpStatus.OK);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+exports.logout = async function (req, res, next) {
+  try {
+    let updated = await User.update(req.body.id, {
+      logout: true,
+      ...req.body
+    });
+    res.status(httpStatus.OK).send({ success: true });
   } catch (error) {
     return next(error);
   }

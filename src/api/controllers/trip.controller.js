@@ -66,18 +66,21 @@ exports.create = async (req, res, next) => {
       name, location, place_id, start_date, end_date, check_list: checklist, notes: notesList, user, lat, lng
     });
 
-    agenda.schedule("2019-08-19T10:55:59.999Z", 'send notification', {
-      id: trip.id,
-      days: 1
+    [1, 2, 3].map(e => {
+      // let date = new Date().setMinutes(new Date().getMinutes() + 2 * e);
+      // Notification before 3,2,1 days before the trip at 10 AM.
+      let date = new Date(start_date);
+      var day = date.getDate();
+      date.setDate(day - e);
+      date.setHours(10);
+      date = new Date(date).toISOString();
+      agenda.schedule(date, 'send notification', {
+        id: trip.id,
+        user_id: user,
+        days: e
+      });
     });
-    agenda.schedule("2019-08-19T10:56:59.999Z", 'send notification', {
-      id: trip.id,
-      days: 2
-    });
-    agenda.schedule("2019-08-19T10:57:59.999Z", 'send notification', {
-      id: trip.id,
-      days: 3
-    });
+    console.log("Agenda scheduled...");
 
     res.status(httpStatus.OK).send({ trip });
   } catch (error) {

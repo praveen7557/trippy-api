@@ -15,4 +15,10 @@ router.route('/facebook')
 router.route('/google')
   .post(validate(oAuth), oAuthLogin(), controller.oAuth);
 
+router.route('/user/:id')
+  .put(controller.update);
+
+router.route('/logout')
+  .post(controller.logout);
+
 module.exports = router;
