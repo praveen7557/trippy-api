@@ -1,5 +1,5 @@
 const express = require('express');
-const validate = require('express-validation');
+// const validate = require('express-validation');
 const controller = require('../../controllers/sync.controller');
 
 const router = express.Router();
