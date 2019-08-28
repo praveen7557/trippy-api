@@ -20,7 +20,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install
-        npm publish 
+        npm gitdeploy 
       env:
         CI: true
         MONGO_URI: mongodb://admin:tripster1@ds137631.mlab.com:37631/trippy
