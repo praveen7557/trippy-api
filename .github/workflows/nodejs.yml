@@ -20,13 +20,6 @@ jobs:
         npm install -g yarn
         yarn install
         yarn start 
-    - name: Setup Google Cloud
-      uses: actions/gcloud/auth@master
-      env:
-        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH }}
-    - name: Delpoy to GCP
-      uses: actions/gcloud/cli@master
-      run: gcloud app deploy — project=trippy-7557
       env:
         CI: true
         MONGO_URI: mongodb://admin:tripster1@ds137631.mlab.com:37631/trippy
@@ -35,3 +28,11 @@ jobs:
         NODE_ENV: production
         JOB_TYPES: notifs
         FCM_SERVER_KEY: AAAAv5jEgow:APA91bGTN8YjGQ8i-L0e-UEN_Ua9aZdFXat_RG7SeEGCt6oOu0vvSUkQTTiJvW5GiqR7P8EuRJEebxtIe_degxGb-WaT-4sAWp5cAa-dneei34o1myyUgHOZSOap1hnBnGsFztBxHIRQ
+    - name: Setup Google Cloud
+      uses: actions/gcloud/auth@master
+      env:
+        GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH }}
+    - name: Delpoy to GCP
+      uses: actions/gcloud/cli@master
+      with:
+        args: gcloud app deploy — project=trippy-7557
