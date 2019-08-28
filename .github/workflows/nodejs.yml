@@ -19,7 +19,6 @@ jobs:
       run: |
         npm install -g yarn
         yarn install
-        yarn start 
       env:
         CI: true
         MONGO_URI: mongodb://admin:tripster1@ds137631.mlab.com:37631/trippy
