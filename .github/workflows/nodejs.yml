@@ -33,5 +33,4 @@ jobs:
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH }}
     - name: Delpoy to GCP
       uses: actions/gcloud/cli@master
-      with:
-        args: gcloud app deploy --project trippy-7557
+      run: gcloud app deploy --project trippy-7557
